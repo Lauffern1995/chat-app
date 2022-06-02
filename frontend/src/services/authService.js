@@ -12,9 +12,18 @@ const AuthService = {
                 throw err
             })
     },
-    register: (data) => {},
+    register: (data) => {
+        return API.post('/register', data)
+            .then(({ data }) => {
+                API.defaults.headers['Authorization'] = `Bearer ${data.token}`
+                return data
+            })
+            .catch((err) => {
+                console.log('Auth Service Error', err)
+                throw err
+            })
+    },
     logout: () => {},
 }
-
 
 export default AuthService
