@@ -5,23 +5,28 @@ import './Auth.scss'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
+import AuthService from '../../services/authService'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const submitForm = (e) => {
-      e.preventDefault()
+        e.preventDefault()
 
-     axios.post('http://localhost:3001/login', {email, password}) 
-     .then(res => {
-        console.log('RESP', res);
-        
-     })
-     .catch(err => {
-       console.log('ERROR', err);
-       
-     })
+        AuthService.login({ email, password }).then((res) =>
+            console.log('RES', res)
+        )
+
+        //  axios.post('http://localhost:3001/login', {email, password})
+        //  .then(res => {
+        //     console.log('RESP', res);
+
+        //  })
+        //  .catch(err => {
+        //    console.log('ERROR', err);
+
+        //  })
     }
 
     return (
@@ -38,7 +43,7 @@ const Login = () => {
                             <div className="input-field mb-1">
                                 <input
                                     placeholder="Email"
-                                    onChange={e => setEmail(e.target.value) }
+                                    onChange={(e) => setEmail(e.target.value)}
                                     value={email}
                                     type="email"
                                     required="required"
@@ -48,7 +53,9 @@ const Login = () => {
                             <div className="input-field mb-2">
                                 <input
                                     placeholder="Password"
-                                    onChange={e => setPassword(e.target.value) }
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     value={password}
                                     type="password"
                                     required="required"

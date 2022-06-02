@@ -51,9 +51,9 @@ exports.register = async (req, res) => {
 }
 
 const generateToken = (user) => {
-    console.log(user)
+    // console.log(user)
 
-    // delete user.password
+    delete user.password
 
     const token = jwt.sign(user, config.appKey, { expiresIn: 86400 })
 
