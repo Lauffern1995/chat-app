@@ -1,29 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Raleway&family=Roboto:wght@300&family=Signika+Negative&family=Source+Sans+Pro:ital,wght@0,300;0,600;1,300;1,600&display=swap');
 
-
 body {
-  font-family: "Roboto" sans-serif;
+    font-family: 'Roboto' sans-serif;
 }
 
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .card-shadow {
-  -webkit-box-shadow: 0px 5px 5px 0px rgba(64,64,64,0.5);
-  -moz-box-shadow: 0px 5px 5px 0px rgba(64,64,64,0.5);
-  box-shadow: 0px 5px 5px 0px rgba(64,64,64,0.5);
-   
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(64, 64, 64, 0.5);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(64, 64, 64, 0.5);
+    box-shadow: 0px 5px 5px 0px rgba(64, 64, 64, 0.5);
 }
 
 .m-0 {
-  margin: 0rem;
+    margin: 0rem;
 }
 
 .mb-1 {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .mb-2 {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
