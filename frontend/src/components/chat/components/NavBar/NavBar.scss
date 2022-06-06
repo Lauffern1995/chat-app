@@ -1,0 +1,28 @@
+@import '../../../../assets/scss/variables.scss';
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    background-color: $bg-main;
+
+    h2 {
+        display: flex;
+        align-self: center;
+        color: white;
+    }
+    #profile-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        position: relative;
+        cursor: pointer;
+
+        p {
+          display: flex;
+          align-self: center;
+          color: white;
+        }
+    }
+}
