@@ -14,7 +14,7 @@ exports.userFile = ((req, res, next) => {
         const extention = getFileType(file)
 
         const filename =
-            Date.now() + '-' + Math.round(Math.random() * 1e9) + '.' + extention
+          ` ${Date.now()}-${Math.round(Math.random() * 1e9)}.${extention}`
 
         cb(null, file.fieldname + '-' + filename)
     }

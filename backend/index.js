@@ -29,6 +29,7 @@ app.use(bodyParser.json())
 app.use(router)
 
 app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/upload'))
 
 
 const port = config.appPort

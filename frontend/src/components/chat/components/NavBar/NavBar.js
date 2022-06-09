@@ -1,18 +1,20 @@
 import './NavBar.scss'
 
-import { useSelector, useDispatch,  } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState, Fragment, } from 'react'
+import { useState, Fragment } from 'react'
 import { logout } from '../../../../store/actions/auth'
-
+import { updateProfile } from '../../../../store/actions/auth'
 import Modal from '../../../modal/Modal'
 import { useNavigate } from 'react-router-dom'
 
 const NavBar = () => {
+    const dispatch = useDispatch()
     const user = useSelector((state) => state.authReducer.user)
 
     const [showProfileOptions, setShowProfileOptions] = useState(false)
     const [showProfileModal, setShowProfileModal] = useState(false)
+
     const [firstName, setFirstName] = useState(user.firstName)
     const [lastName, setLastName] = useState(user.lastName)
     const [email, setEmail] = useState(user.email)
@@ -20,24 +22,23 @@ const NavBar = () => {
     const [gender, setGender] = useState(user.gender)
     const [avatar, setAvatar] = useState(user.avatar)
 
- 
-
-    const history = useNavigate()
-    const dispatch = useDispatch()
-
     const submitForm = (e) => {
         e.preventDefault()
 
-       const form = {firstName, lastName, email, password, gender, avatar}
+        const form = { firstName, lastName, email, gender, avatar }
 
-       const formData = new FormData()
+        if (password.length > 0) {
+            form.password = password
+        }
 
-       for (const key in form)  {
-           formData.append(key, form[key])
-       }
+        const formData = new FormData()
 
-       //dispatch
-       
+        for (const key in form) {
+            formData.append(key, form[key])
+        }
+
+        //dispatch
+        dispatch(updateProfile(formData)).then(setShowProfileModal(false))
     }
 
     return (
@@ -62,14 +63,13 @@ const NavBar = () => {
                 )}
                 {showProfileModal && (
                     <Modal click={() => setShowProfileModal(false)}>
-                        <Fragment key="header" >
+                        <Fragment key="header">
                             <h3 className="m-0">Update Profile</h3>
                         </Fragment>
                         <Fragment key="body">
-                            <form>
+                            <form onSubmit={submitForm}>
                                 <div className="input-field mb-1">
                                     <input
-                                        placeholder="First Name"
                                         onChange={(e) =>
                                             setFirstName(e.target.value)
                                         }
@@ -130,20 +130,21 @@ const NavBar = () => {
 
                                 <div className="input-field mb-2">
                                     <input
-                                        
                                         onChange={(e) =>
                                             setAvatar(e.target.files[0])
                                         }
                                         required="required"
                                         type="file"
-                                        
                                     />
                                 </div>
                             </form>
                         </Fragment>
                         <Fragment key="footer">
-                            <button className='btn-success'>
-                                SAVE
+                            <button
+                                onClick={submitForm}
+                                className="btn-success"
+                            >
+                                UPDATE
                             </button>
                         </Fragment>
                     </Modal>

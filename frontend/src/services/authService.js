@@ -28,6 +28,22 @@ const AuthService = {
         localStorage.removeItem('user')
         localStorage.removeItem('token')
     },
+
+    updateProfile: (data) => {
+        const headers = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }
+        return API.post('/users/update', data, headers)
+            .then(({ data }) => {
+                localStorage.removeItem('user')
+                localStorage.setItem('user', JSON.stringify(data))
+                return data
+            })
+            .catch((err) => {
+                console.log('Auth Service Error', err)
+                throw err
+            })
+    },
 }
 
 const setHeadersAndStorage = ({ user, token }) => {

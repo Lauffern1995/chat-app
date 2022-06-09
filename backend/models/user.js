@@ -31,10 +31,12 @@ module.exports = (sequelize, DataTypes) => {
         
         if (!avatar) {
           return`${url}/${this.getDataValue('gender')}.svg`
-        }
+        } else {
+          
+          const id = this.getDataValue('id')
+          return `${url}/user/${id}/${avatar}`
 
-        const id = this.getDataValue('id')
-        return `${url}/user/${id}/${avatar}`
+        }
       }
     }
   }, {
