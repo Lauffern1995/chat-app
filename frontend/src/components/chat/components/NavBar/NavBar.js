@@ -38,7 +38,11 @@ const NavBar = () => {
         }
 
         //dispatch
-        dispatch(updateProfile(formData)).then(setShowProfileModal(false))
+        dispatch(updateProfile(formData))
+            .then(setShowProfileModal(false))
+            .catch((error) => {
+                throw error
+            })
     }
 
     return (
