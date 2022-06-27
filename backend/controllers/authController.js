@@ -52,7 +52,7 @@ const generateToken = (user) => {
 
     delete user.password
 
-    const token = jwt.sign(user, config.appKey, { expiresIn: 86400 })
+    const token = jwt.sign(user, config.appKey, { expiresIn: 864000 })
 
     return { ...{ user }, ...{ token } }
 }
