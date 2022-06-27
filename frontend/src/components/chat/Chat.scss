@@ -1,5 +1,7 @@
 @import '../../assets/scss/variables';
 
+
+
 #chat-container {
     display: flex;
     flex-direction: column;
@@ -14,9 +16,27 @@
 
     #chat-wrap {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex-grow: 1;
         overflow: hidden;
-        padding: 2rem, 1rem;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        padding: 3rem;
     }
+
+
+    .online-status {
+        display: inline-block;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+ 
+    .online {
+        background-color: $success;
+    }
+ 
+    .offline {
+        background-color: $danger;
+    } 
 }

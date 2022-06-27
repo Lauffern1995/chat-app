@@ -23,7 +23,7 @@
             display: flex;
             flex-direction: column;
 
-            & > div {
+            &>div {
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -45,7 +45,7 @@
             }
         }
 
-        & > .fa-icon {
+        &>.fa-icon {
             font-size: 20px;
             color: $bg-main;
             right: 0;
@@ -55,7 +55,7 @@
         }
     }
 
-    & > div {
+    &>div {
         flex-grow: 1;
     }
 
@@ -82,6 +82,7 @@
     }
 
     #suggestions {
+
         .suggestion {
             margin: 10px 0;
             padding: 5px;
@@ -98,5 +99,6 @@
                 cursor: pointer;
             }
         }
+
     }
 }
