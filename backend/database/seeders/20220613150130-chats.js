@@ -1,5 +1,4 @@
-'use strict';
-
+'use strict'
 
 const models = require('../../models')
 const User = models.User
@@ -8,56 +7,60 @@ const ChatUser = models.ChatUser
 const Message = models.Message
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+    async up(queryInterface, Sequelize) {
+        /**
+         * Add seed commands here.
+         *
+         * Example:
+         * await queryInterface.bulkInsert('People', [{
+         *   name: 'John Doe',
+         *   isBetaMember: false
+         * }], {});
+         */
 
+        const users = await User.findAll({ limit: 2 })
+        const chat = await Chat.create()
+        await ChatUser.bulkCreate([
+            {
+                chatId: chat.id,
+                userId: users[0].id,
+            },
+            {
+                chatId: chat.id,
+                userId: users[1].id,
+            },
+        ])
 
-    const users = await User.findAll({limit : 2})
-    const chat = await Chat.create()
-    await ChatUser.bulkCreate([
-      {
-        chatId: chat.id,
-        userId: users[0].id
-      },
-      {
-        chatId: chat.id,
-        userId: users[1].id
-      }
-    ])
+        await Message.bulkCreate([
+            {
+                message: 'Hello There',
+                chatId: chat.id,
+                fromUserId: users[0].id,
+            },
+            {
+                message: 'General Kenobi',
+                chatId: chat.id,
+                fromUserId: users[1].id,
+            },
+            {
+                message: 'I have the high ground!',
+                chatId: chat.id,
+                fromUserId: users[0].id,
+            },
+            {
+                message: 'I have the high ground!',
+                chatId: chat.id,
+                fromUserId: users[0].id,
+            },
+        ])
+    },
 
-    await Message.bulkCreate([
-      {
-        message: 'Hello There',
-        chatId: chat.id,
-        fromUserId: users[0].id
-      },
-      {
-        message: 'General Kenobi',
-        chatId: chat.id,
-        fromUserId: users[1].id
-      },
-      {
-        message: 'I have the high ground!',
-        chatId: chat.id,
-        fromUserId: users[0].id
-      },
-    ]) 
-  },
-
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
-  }
-};
+    async down(queryInterface, Sequelize) {
+        /**
+         * Add commands to revert seed here.
+         *
+         * Example:
+         * await queryInterface.bulkDelete('People', null, {});
+         */
+    },
+}

@@ -26,6 +26,7 @@ exports.index = async (req, res) => {
                     },
                     {
                         model: Message,
+                        include: [{ model: User }],
                         limit: 20,
                         order: [['id', 'DESC']],
                     },
@@ -124,6 +125,7 @@ exports.messages = async (req, res) => {
         where: {
             chatId: req.query.id,
         },
+        include: [{ model: User }],
         limit,
         offset,
     })
@@ -143,19 +145,15 @@ exports.messages = async (req, res) => {
     return res.json({ result })
 }
 
-
 exports.deleteChat = async (req, res) => {
-    
-    
     try {
         await Chat.destroy({
             where: {
-                id: req.params.id
-            }
+                id: req.params.id,
+            },
         })
-        return res.json({status: 'Success', message: 'Chat Deleted.'})
+        return res.json({ status: 'Success', message: 'Chat Deleted.' })
     } catch (e) {
-        return res.status(500).json({status: 'Error', message: e.message})
-        
+        return res.status(500).json({ status: 'Error', message: e.message })
     }
 }
