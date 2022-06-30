@@ -8,8 +8,7 @@ const Message = ({ user, chat, index, message }) => {
             ? 'mb-5'
             : 'mb-10'
     }
-        console.log(message);
-        
+
     return (
         <div
             className={`message ${determineMargin()} ${
