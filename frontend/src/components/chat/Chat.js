@@ -9,7 +9,7 @@ import './Chat.scss'
 import FriendList from './components/FriendList/FriendList'
 import Messenger from './components/Messenger/Messenger'
 
-import { fetchChats } from '../../store/actions/chat'
+
 
 const Chat = () => {
     const dispatch = useDispatch()
@@ -17,15 +17,15 @@ const Chat = () => {
 
     useSocket(user, dispatch)
 
-    useEffect(() => {
-        dispatch(fetchChats())
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log('ERR', err)
-            })
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(fetchChats())
+    //         .then((res) => {
+    //             console.log(res)
+    //         })
+    //         .catch((err) => {
+    //             console.log('ERR', err)
+    //         })
+    // }, [dispatch])
 
     return (
         <div id="chat-container">
