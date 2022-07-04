@@ -47,11 +47,7 @@ module.exports = {
                 chatId: chat.id,
                 fromUserId: users[0].id,
             },
-            {
-                message: 'I have the high ground!',
-                chatId: chat.id,
-                fromUserId: users[0].id,
-            },
+            
         ])
     },
 

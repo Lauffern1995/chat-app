@@ -5,16 +5,23 @@ import {
     onlineFriends,
     onlineFriend,
     offlineFriend,
+    setSocket,
+    receivedMessage,
 } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
 
 //SOCKET CONNECTION TO SERVER 3001
 function useSocket(user, dispatch) {
+
     useEffect(() => {
+
+      
         dispatch(fetchChats())
             .then((res) => {
                 const socket = socketIOClient.connect('http://localhost:3001/')
+
+                dispatch(setSocket(socket))
 
                 socket.emit('join', user)
 
@@ -32,6 +39,11 @@ function useSocket(user, dispatch) {
                 socket.on('friends', (friends) => {
                     console.log('friends', friends)
                     dispatch(onlineFriends(friends))
+                })
+
+                socket.on('received', (message) => {
+                    console.log('message', message)
+                    dispatch(receivedMessage(message, user.id))
                 })
                 console.log(res)
             })

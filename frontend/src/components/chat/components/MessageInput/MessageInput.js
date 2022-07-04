@@ -9,6 +9,7 @@ const MessageInput = ({ chat }) => {
     const [image, setImage] = useState('')
 
     const user = useSelector((state) => state.authReducer.user)
+    const socket = useSelector((state) => state.chatReducer.socket)
 
     const handleMessage = (e) => {
         const value = e.target.value
@@ -18,24 +19,29 @@ const MessageInput = ({ chat }) => {
     }
 
     const handleKeyDown = (e, imageUpload) => {
-        if (e.key === 'Enter') sendMessage(imageUpload)
+        if (e.key === 'Enter') {
+            sendMessage(imageUpload)
+        }
     }
 
     const sendMessage = (imageUpload) => {
-        if (message.length < 1 && !imageUpload) return
+        if (message.length < 1 && !imageUpload) {    
+            return
+        }
 
         const msg = {
             type: imageUpload ? 'image' : 'text',
-            fromUserId: user.id,
+            fromUser: user,
             toUserId: chat.Users.map((user) => user.id),
             chatId: chat.id,
             message: imageUpload ? image : message,
         }
 
-        setMessage('')
-        setImage('')
+        setMessage(null)
+        setImage(null)
 
         //send msg with sockets
+        socket.emit('message', msg)
     }
 
     return (

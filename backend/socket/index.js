@@ -2,6 +2,8 @@ const socketIo = require('socket.io')
 
 const { sequelize } = require('../models')
 
+const Message = require('../models').Message
+
 const users = new Map()
 const userSockets = new Map()
 
@@ -50,6 +52,46 @@ const SocketServer = (server) => {
                 } catch (e) {}
             })
         })
+
+        socket.on('message', async (message) => {
+            let sockets = []
+            
+            if (users.has(message.fromUser.id)) {
+                sockets = users.get(message.fromUser.id).sockets
+            }
+
+            message.toUserId.forEach((id) => {
+                if (users.has(id)) {
+                    sockets = [...sockets, ...users.get(id).sockets]
+                }
+            })
+
+            try {
+                const msg = {
+                    type: message.type,
+                    fromUserId: message.fromUser.id,
+                    chatId: message.chatId,
+                    message: message.message,
+                }
+
+                console.log('MESSAGE', msg);
+                
+                const savedMessage = await Message.create(msg)
+
+                message.User = message.fromUser
+                message.fromUserId = message.fromUser.id
+                message.id = savedMessage.id
+                delete message.fromUser
+
+                sockets.forEach((socket) => {
+                    io.to(socket).emit('received', message)
+                })
+            } catch (e) {
+              console.log('err', e);
+              
+            }
+        })
+
         socket.on('disconnect', async () => {
             if (userSockets.has(socket.id)) {
                 const user = users.get(userSockets.get(socket.id))
