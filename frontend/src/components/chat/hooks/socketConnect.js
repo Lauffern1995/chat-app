@@ -1,5 +1,6 @@
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 
+import { onlineFriends } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
 
@@ -13,6 +14,19 @@ function useSocket (user, dispatch) {
 
     socket.on('typing', (user) => {
       console.log('Event', user);
+      
+    })
+    socket.on('online', (user) => {
+      console.log('online', user);
+      
+    })
+    socket.on('offline', (user) => {
+      console.log('offline', user);
+      
+    })
+    socket.on('friends', (friends) => {
+      console.log('friends', friends);
+      dispatch(onlineFriends(friends))
       
     })
 

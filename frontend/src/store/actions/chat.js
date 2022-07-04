@@ -1,6 +1,9 @@
 import ChatService from '../../services/chatService'
 export const FETCH_CHATS = 'FETCH_CHATS'
 export const SET_CUURENT_CHAT = 'SET_CUURENT_CHAT'
+export const FRIENDS_ONLINE = 'FRIENDS_ONLINE'
+export const FRIEND_ONLINE = 'FRIEND_ONLINE'
+export const FRIEND_OFFLINE = 'FRIEND_OFFLINE'
 
 export const fetchChats = () => (dispatch) => {
     return ChatService.fetchChats()
@@ -21,4 +24,16 @@ export const fetchChats = () => (dispatch) => {
 
 export const setCurrentChat = (chat) => dispatch => {
     dispatch({ type: SET_CUURENT_CHAT, payload: chat })
+}
+
+export const onlineFriends = (friends) => dispatch => {
+    dispatch({ type: FRIENDS_ONLINE, payload: friends })
+}
+
+export const onlineFriend = (friend) => dispatch => {
+    dispatch({ type: FRIEND_ONLINE, payload: friend })
+}
+
+export const offlineFriend = (friend) => dispatch => {
+    dispatch({ type: FRIEND_OFFLINE, payload: friend })
 }
