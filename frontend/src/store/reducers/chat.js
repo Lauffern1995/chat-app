@@ -28,6 +28,8 @@ const chatReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentChat: payload,
+                scrollBottom: state.scrollBottom +1,
+                newMessage: {chatId: null, seen: null}
             }
 
         //MODIFY NESTED PROPERTY
