@@ -8,6 +8,7 @@ import {
     FRIEND_ONLINE,
     RECEIVED_MESSAGE,
     SET_SOCKET,
+    SENDER_TYPING,
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -49,4 +50,8 @@ export const setSocket = (socket) => (dispatch) => {
 
 export const receivedMessage = (message, userId) => (dispatch) => {
     dispatch({ type: RECEIVED_MESSAGE, payload: { message, userId } })
+}
+
+export const senderTyping = (sender) => (dispatch) => {
+    dispatch({ type: SENDER_TYPING, payload: sender })
 }

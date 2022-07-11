@@ -5,13 +5,14 @@ export const FRIEND_ONLINE = 'FRIEND_ONLINE'
 export const FRIEND_OFFLINE = 'FRIEND_OFFLINE'
 export const SET_SOCKET = 'SET_SOCKET'
 export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
-
+export const SENDER_TYPING = 'SENDER_TYPING'
 
 const initialState = {
     chats: [],
     currentChat: {},
     newMessage: { chatId: null, seen: null },
     scrollBottom: 0,
+    senderTyping: { typing: false },
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -28,8 +29,8 @@ const chatReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentChat: payload,
-                scrollBottom: state.scrollBottom +1,
-                newMessage: {chatId: null, seen: null}
+                scrollBottom: state.scrollBottom + 1,
+                newMessage: { chatId: null, seen: null },
             }
 
         //MODIFY NESTED PROPERTY
@@ -133,26 +134,28 @@ const chatReducer = (state = initialState, action) => {
 
             const chatsCopy = state.chats.map((chat) => {
                 if (message.chatId === chat.id) {
-                    if (message.User.id === userId){
+                    if (message.User.id === userId) {
                         scrollBottom++
                     } else {
                         newMessage = {
-                            chatId : chat.id,
-                            seen: false
+                            chatId: chat.id,
+                            seen: false,
                         }
                     }
 
                     if (message.chatId === currentChatCopy.id) {
                         currentChatCopy = {
                             ...currentChatCopy,
-                            Messages: [...currentChatCopy.Messages, ...[message]]
+                            Messages: [
+                                ...currentChatCopy.Messages,
+                                ...[message],
+                            ],
                         }
                     }
                     return {
-                        ...chat, 
-                        Messages: [...chat.Messages, ...[message]]
+                        ...chat,
+                        Messages: [...chat.Messages, ...[message]],
                     }
-                
                 }
 
                 return chat
@@ -163,9 +166,9 @@ const chatReducer = (state = initialState, action) => {
                     ...state,
                     chats: chatsCopy,
                     currentChat: currentChatCopy,
-                    newMessage: newMessage
+                    newMessage: newMessage,
+                    senderTyping: { typing: false },
                 }
-
             }
 
             return {
@@ -173,7 +176,23 @@ const chatReducer = (state = initialState, action) => {
                 chats: chatsCopy,
                 currentChat: currentChatCopy,
                 newMessage,
-                scrollBottom
+                scrollBottom,
+                senderTyping: { typing: false },
+            }
+        }
+
+        case SENDER_TYPING: {
+            if (payload.typing) {
+                return {
+                    ...state,
+                    senderTyping: payload,
+                    scrollBottom: state.scrollBottom + 1,
+                }
+            }
+
+            return {
+                ...state,
+                senderTyping: payload,
             }
         }
 

@@ -7,16 +7,14 @@ import {
     offlineFriend,
     setSocket,
     receivedMessage,
+    senderTyping,
 } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
 
 //SOCKET CONNECTION TO SERVER 3001
 function useSocket(user, dispatch) {
-
     useEffect(() => {
-
-      
         dispatch(fetchChats())
             .then((res) => {
                 const socket = socketIOClient.connect('http://localhost:3001/')
@@ -25,8 +23,8 @@ function useSocket(user, dispatch) {
 
                 socket.emit('join', user)
 
-                socket.on('typing', (user) => {
-                    console.log('Event', user)
+                socket.on('typing', (sender) => {
+                    dispatch(senderTyping(sender))
                 })
                 socket.on('online', (user) => {
                     console.log('online', user)
