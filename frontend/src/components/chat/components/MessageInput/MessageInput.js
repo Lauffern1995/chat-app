@@ -4,8 +4,10 @@ import { useState, useRef } from 'react'
 
 import { useSelector } from 'react-redux'
 
+import ChatService from '../../../../services/chatService'
+
 const MessageInput = ({ chat }) => {
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState(' ')
     const [image, setImage] = useState('')
 
     const fileUpload = useRef()
@@ -36,7 +38,7 @@ const MessageInput = ({ chat }) => {
             fromUser: user,
             toUserId: chat.Users.map((user) => user.id),
             chatId: chat.id,
-            message: imageUpload ? image : message,
+            message: imageUpload ? imageUpload : message,
         }
 
         setMessage(null)
@@ -47,19 +49,27 @@ const MessageInput = ({ chat }) => {
     }
 
     const handleImageUpload = () => {
+        setMessage(' ')
         const formData = new FormData()
 
         formData.append('id', chat.id)
         formData.append('image', image)
 
         // chat service
+
+        ChatService.uploadImage(formData)
+            .then((image) => {
+                sendMessage(image)
+                setMessage(null)
+            })
+            .catch((e) => console.log('err', e))
     }
     return (
         <div id="input-container">
             <div id="image-upload-container">
                 <div></div>
                 <div id="image-upload">
-                    {image.name ? (
+                    {image ? (
                         <div id="image-details">
                             <p className="m-0">{image.name}</p>
                             <FontAwesomeIcon
@@ -84,7 +94,7 @@ const MessageInput = ({ chat }) => {
             </div>
             <div id="message-input">
                 <input
-                    value={message}
+                    value={message || ''}
                     type="text"
                     placeholder="Message..."
                     onChange={(e) => handleMessage(e)}
