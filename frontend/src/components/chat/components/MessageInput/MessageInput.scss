@@ -3,6 +3,12 @@
 #input-container {
     position: relative;
 
+    #picker {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+    }
+
     #image-upload-container {
         display: flex;
         justify-content: space-between;
