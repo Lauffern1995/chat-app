@@ -145,7 +145,7 @@ const MessageInput = ({ chat }) => {
                     {showNewMessageNotif ? (
                         <div id="message-notification" onClick={showNewMessage}>
                             <FontAwesomeIcon icon="bell" className="fa-icon" />
-                            <p className="m-0">New Message!</p>
+                            <p className="m-0">New Message</p>
                         </div>
                     ) : null}
                 </div>
