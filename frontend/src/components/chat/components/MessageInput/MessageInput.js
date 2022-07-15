@@ -2,34 +2,39 @@ import './MessageInput.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useRef, useEffect } from 'react'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import ChatService from '../../../../services/chatService'
 
 import { Picker } from 'emoji-mart'
 import data from '@emoji-mart/data'
 
+import { incrementScroll } from '../../../../store/actions/chat'
+
 const MessageInput = ({ chat }) => {
+    const dispatch = useDispatch()
+
     const [message, setMessage] = useState(' ')
     const [image, setImage] = useState('')
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [showNewMessageNotif, setShowNewMessageNotif] = useState(false)
 
     function EmojiPicker(props) {
         const ref = useRef()
-      
-        useEffect(() => {
-          new Picker({ ...props, data, ref })
-        }, [])
-      
-        return <div ref={ref} />
-      }
 
+        useEffect(() => {
+            new Picker({ ...props, data, ref })
+        }, [])
+
+        return <div ref={ref} />
+    }
 
     const fileUpload = useRef()
     const msgInput = useRef()
 
     const user = useSelector((state) => state.authReducer.user)
     const socket = useSelector((state) => state.chatReducer.socket)
+    const newMessage = useSelector((state) => state.chatReducer.newMessage)
 
     const handleMessage = (e) => {
         const value = e.target.value
@@ -99,8 +104,7 @@ const MessageInput = ({ chat }) => {
             .catch((e) => console.log('err', e))
     }
 
-
-    // allows for emoji to be placed where ever the current cursor postion is 
+    // allows for emoji to be placed where ever the current cursor postion is
     const selectEmoji = (emoji) => {
         const startPosition = msgInput.current.selectionStart
         const endPosition = msgInput.current.selectionEnd
@@ -115,10 +119,36 @@ const MessageInput = ({ chat }) => {
         msgInput.current.selectionEnd = endPosition + emojiLength
     }
 
+    useEffect(() => {
+        if (!newMessage.seen && newMessage.chatId === chat.id) {
+            const msgBox = document.getElementById('msg-box')
+            if (msgBox.scrollTop > msgBox.scrollHeight * 0.3) {
+                dispatch(incrementScroll())
+            } else {
+                setShowNewMessageNotif(true)
+            }
+        } else {
+            setShowNewMessageNotif(false)
+        }
+    }, [newMessage, dispatch])
+
+    const showNewMessage = () => {
+        //dispatch
+        dispatch(incrementScroll())
+        setShowNewMessageNotif(false)
+    }
+
     return (
         <div id="input-container">
             <div id="image-upload-container">
-                <div></div>
+                <div>
+                    {showNewMessageNotif ? (
+                        <div id="message-notification" onClick={showNewMessage}>
+                            <FontAwesomeIcon icon="bell" className="fa-icon" />
+                            <p className="m-0">New Message!</p>
+                        </div>
+                    ) : null}
+                </div>
                 <div id="image-upload">
                     {image ? (
                         <div id="image-details">
@@ -164,16 +194,14 @@ const MessageInput = ({ chat }) => {
                 type="file"
                 onChange={(e) => setImage(e.target.files[0])}
             />
-            <div id='picker'>
-
-            {showEmojiPicker ? (
-                <EmojiPicker
-                    
-                    title="Pick One!"
-                    emoji="point_up"
-                    onEmojiSelect={selectEmoji}
-                />
-            ) : null}
+            <div id="picker">
+                {showEmojiPicker ? (
+                    <EmojiPicker
+                        title="Pick One!"
+                        emoji="point_up"
+                        onEmojiSelect={selectEmoji}
+                    />
+                ) : null}
             </div>
         </div>
     )

@@ -10,6 +10,7 @@ import {
     SET_SOCKET,
     SENDER_TYPING,
     PAGINATE_MESSAGES,
+    INCREMENT_SCROLL,
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -79,4 +80,8 @@ export const paginateMessage = (id, page) => (dispatch) => {
         .catch((e) => {
             throw e
         })
+}
+
+export const  incrementScroll = () => (dispatch) => {
+    dispatch({ type: INCREMENT_SCROLL })
 }

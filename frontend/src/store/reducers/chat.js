@@ -7,7 +7,7 @@ export const SET_SOCKET = 'SET_SOCKET'
 export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
 export const SENDER_TYPING = 'SENDER_TYPING'
 export const PAGINATE_MESSAGES = 'PAGINATE_MESSAGES'
-
+export const INCREMENT_SCROLL = 'INCREMENT_SCROLL'
 const initialState = {
     chats: [],
     currentChat: {},
@@ -224,6 +224,14 @@ const chatReducer = (state = initialState, action) => {
                 ...state,
                 chats: chatsCopy,
                 currentChat: currentChatCopy,
+            }
+        }
+
+        case INCREMENT_SCROLL : {
+            return {
+                ...state,
+                scrollBottom: state.scrollBottom + 1,
+                newMessage: {chatId: null, seen: true}
             }
         }
 
