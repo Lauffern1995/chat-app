@@ -8,6 +8,7 @@ import {
     setSocket,
     receivedMessage,
     senderTyping,
+    createChat
 } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
@@ -42,6 +43,10 @@ function useSocket(user, dispatch) {
                 socket.on('received', (message) => {
                     console.log('message', message)
                     dispatch(receivedMessage(message, user.id))
+                })
+
+                socket.on('new-chat', (chat) => {
+                    dispatch(createChat(chat))
                 })
                 console.log(res)
             })

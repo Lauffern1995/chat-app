@@ -8,6 +8,8 @@ export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
 export const SENDER_TYPING = 'SENDER_TYPING'
 export const PAGINATE_MESSAGES = 'PAGINATE_MESSAGES'
 export const INCREMENT_SCROLL = 'INCREMENT_SCROLL'
+export const CREATE_CHAT = 'CREATE_CHAT'
+
 const initialState = {
     chats: [],
     currentChat: {},
@@ -234,6 +236,14 @@ const chatReducer = (state = initialState, action) => {
                 newMessage: {chatId: null, seen: true}
             }
         }
+
+        case CREATE_CHAT : {
+            return {
+                ...state,
+                chats: [...state.chats, ...[payload]]
+            }
+        }
+
 
         default: {
             return state

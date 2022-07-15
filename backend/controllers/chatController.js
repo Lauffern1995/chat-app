@@ -90,26 +90,52 @@ exports.create = async (req, res) => {
 
         await t.commit()
 
-        const newChat = await Chat.findOne({
+        // const newChat = await Chat.findOne({
+        //     where: {
+        //         id: chat.id,
+        //     },
+        //     include: [
+        //         {
+        //             model: User,
+        //             where: {
+        //                 [Op.not]: {
+        //                     id: req.user.id,
+        //                 },
+        //             },
+        //         },
+        //         {
+        //             model: Message,
+        //         },
+        //     ],
+        // })
+
+        const creator = await User.findOne({
             where: {
-                id: chat.id,
+                id: req.user.id,
             },
-            include: [
-                {
-                    model: User,
-                    where: {
-                        [Op.not]: {
-                            id: req.user.id,
-                        },
-                    },
-                },
-                {
-                    model: Message,
-                },
-            ],
         })
 
-        return res.json(newChat)
+        const partner = await User.findOne({
+            where: {
+                id: partnerId,
+            },
+        })
+
+        const forCreator = {
+            id: chat.id,
+            type: 'dual',
+            Users: [partner],
+            Messages: [],
+        }
+
+        const forReceiver = {
+            id: chat.id,
+            type: 'dual',
+            Users: [creator],
+            Messages: [],
+        }
+
+        return res.json([forCreator, forReceiver])
     } catch (e) {
         await t.rollback()
         return res.status(500).json({ status: 'Error', message: e.message })
@@ -128,7 +154,7 @@ exports.messages = async (req, res) => {
         include: [{ model: User }],
         limit,
         offset,
-        order: [['id', 'DESC']]
+        order: [['id', 'DESC']],
     })
 
     const totalPages = Math.ceil(messages.count / limit)
@@ -148,7 +174,7 @@ exports.messages = async (req, res) => {
 
 exports.imageUpload = (req, res) => {
     if (req.file) {
-        return res.json({url: req.file.filename})
+        return res.json({ url: req.file.filename })
     }
 
     return res.status(500).json('Image Not Valid')

@@ -11,11 +11,13 @@ import { useState, Fragment } from 'react'
 import Modal from '../../../modal/Modal'
 
 const FriendList = () => {
+
     const [showFriendsModal, setShowFriendsModal] = useState(false)
     const [suggestions, setSuggestions] = useState([])
 
     const dispatch = useDispatch()
     const chats = useSelector((state) => state.chatReducer.chats)
+    const socket = useSelector((state) => state.chatReducer.socket)
 
     const openChat = (chat) => {
         dispatch(setCurrentChat(chat))
@@ -24,15 +26,26 @@ const FriendList = () => {
     const searchFriends = (e) => {
         ChatService.searchUsers(e.target.value)
             .then((res) => {
-                console.log('res', res);
-                
-                setSuggestions(res)})
+                console.log('res', res)
+
+                setSuggestions(res)
+            })
             .catch((e) => {
                 console.log('err', e)
             })
     }
 
-    const addNewFriend = (id) => {}
+    const addNewFriend = (id) => {
+
+        console.log('id', id);
+        
+        ChatService.createChat(id)
+            .then((chats) => {
+                socket.emit('add-friend', chats)
+                setShowFriendsModal(false)
+            })
+            .catch((e) => console.log('err', e))
+    }
 
     return (
         <div id="friends" className="shadow-light">
@@ -71,14 +84,18 @@ const FriendList = () => {
                         />
                         <div id="suggestions">
                             {suggestions.map((user) => {
-                               return <div key={user.id} className="suggestion">
-                                    <p className="m-0">
-                                        {user.firstName} {user.lastName}
-                                    </p>
-                                    <button onClick={(id) => addNewFriend(id)}>
-                                        ADD
-                                    </button>
-                                </div>
+                                return (
+                                    <div key={user.id} className="suggestion">
+                                        <p className="m-0">
+                                            {user.firstName} {user.lastName}
+                                        </p>
+                                        <button
+                                            onClick={() => addNewFriend(user.id)}
+                                        >
+                                            ADD
+                                        </button>
+                                    </div>
+                                )
                             })}
                         </div>
                     </Fragment>
