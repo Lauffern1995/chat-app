@@ -9,6 +9,7 @@ import {
     RECEIVED_MESSAGE,
     SET_SOCKET,
     SENDER_TYPING,
+    PAGINATE_MESSAGES,
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -54,4 +55,28 @@ export const receivedMessage = (message, userId) => (dispatch) => {
 
 export const senderTyping = (sender) => (dispatch) => {
     dispatch({ type: SENDER_TYPING, payload: sender })
+}
+
+export const paginateMessage = (id, page) => (dispatch) => {
+    return ChatService.paginateMessages(id, page)
+
+        .then((data) => {
+            if (
+                typeof data.result.messages !== 'undefined' &&
+                data.result.messages.length > 0
+            ) {
+                let messages = data.result.messages.reverse()
+
+                let pagination = data.result.pagination
+
+                const payload = { messages, id, pagination }
+
+                dispatch({ type: PAGINATE_MESSAGES, payload })
+                return true
+            }
+            return false
+        })
+        .catch((e) => {
+            throw e
+        })
 }

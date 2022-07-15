@@ -76,6 +76,7 @@ const MessageInput = ({ chat }) => {
 
         setMessage(null)
         setImage(null)
+        setShowEmojiPicker(false)
 
         //send msg with sockets
         socket.emit('message', msg)
@@ -98,6 +99,8 @@ const MessageInput = ({ chat }) => {
             .catch((e) => console.log('err', e))
     }
 
+
+    // allows for emoji to be placed where ever the current cursor postion is 
     const selectEmoji = (emoji) => {
         const startPosition = msgInput.current.selectionStart
         const endPosition = msgInput.current.selectionEnd

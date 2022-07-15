@@ -6,6 +6,7 @@ export const FRIEND_OFFLINE = 'FRIEND_OFFLINE'
 export const SET_SOCKET = 'SET_SOCKET'
 export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
 export const SENDER_TYPING = 'SENDER_TYPING'
+export const PAGINATE_MESSAGES = 'PAGINATE_MESSAGES'
 
 const initialState = {
     chats: [],
@@ -193,6 +194,36 @@ const chatReducer = (state = initialState, action) => {
             return {
                 ...state,
                 senderTyping: payload,
+            }
+        }
+
+        case PAGINATE_MESSAGES: {
+            const { messages, id, pagination } = payload
+            let currentChatCopy = { ...state.currentChat }
+            const chatsCopy = state.chats.map((chat) => {
+                if (chat.id === id) {
+                    const shifted = [...messages, ...chat.Messages]
+                    
+                    
+                    currentChatCopy = {
+                        ...currentChatCopy,
+                        Messages: shifted,
+                        Pagination: pagination,
+                    }
+
+                    return {
+                        ...chat,
+                        Messages: shifted,
+                        Pagination: pagination,
+                    }
+                }
+                return chat
+            })
+
+            return {
+                ...state,
+                chats: chatsCopy,
+                currentChat: currentChatCopy,
             }
         }
 
