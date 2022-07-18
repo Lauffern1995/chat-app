@@ -8,7 +8,8 @@ import {
     setSocket,
     receivedMessage,
     senderTyping,
-    createChat
+    createChat,
+    addUserToGroup
 } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
@@ -48,6 +49,12 @@ function useSocket(user, dispatch) {
                 socket.on('new-chat', (chat) => {
                     dispatch(createChat(chat))
                 })
+
+                socket.on('added-user-to-group', (group) => {
+                    dispatch(addUserToGroup(group))
+                })
+
+
                 console.log(res)
             })
             .catch((err) => {

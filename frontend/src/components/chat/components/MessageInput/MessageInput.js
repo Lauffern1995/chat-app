@@ -19,6 +19,10 @@ const MessageInput = ({ chat }) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
     const [showNewMessageNotif, setShowNewMessageNotif] = useState(false)
 
+
+
+    
+
     function EmojiPicker(props) {
         const ref = useRef()
 
@@ -120,8 +124,8 @@ const MessageInput = ({ chat }) => {
     }
 
     useEffect(() => {
-        if (!newMessage.seen && newMessage.chatId === chat.id) {
-            const msgBox = document.getElementById('msg-box')
+        const msgBox = document.getElementById('msg-box')
+        if (!newMessage.seen && newMessage.chatId === chat.id && msgBox.scrollHeight !== msgBox.clientHeight) {
             if (msgBox.scrollTop > msgBox.scrollHeight * 0.3) {
                 dispatch(incrementScroll())
             } else {

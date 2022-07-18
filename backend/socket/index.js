@@ -55,7 +55,7 @@ const SocketServer = (server) => {
 
         socket.on('message', async (message) => {
             let sockets = []
-            
+
             if (users.has(message.fromUser.id)) {
                 sockets = users.get(message.fromUser.id).sockets
             }
@@ -74,8 +74,8 @@ const SocketServer = (server) => {
                     message: message.message,
                 }
 
-                console.log('MESSAGE', msg);
-                
+                console.log('MESSAGE', msg)
+
                 const savedMessage = await Message.create(msg)
 
                 message.User = message.fromUser
@@ -88,42 +88,78 @@ const SocketServer = (server) => {
                     io.to(socket).emit('received', message)
                 })
             } catch (e) {
-              console.log('err', e);
-              
+                console.log('err', e)
             }
         })
 
         socket.on('typing', async (message) => {
-            message.toUserId.forEach(id => {
+            message.toUserId.forEach((id) => {
                 if (users.has(id)) {
-                    users.get(id).sockets.forEach(socket => {
+                    users.get(id).sockets.forEach((socket) => {
                         io.to(socket).emit('typing', message)
                     })
                 }
             })
         })
 
-        socket.on('add-friend', async () => {
+        socket.on('add-friend', (chats) => {
             try {
-                
-                let online = 'offline'  
+                let online = 'offline'
                 if (users.has(chats[1].Users[0].id)) {
                     online = 'online'
                     chats[0].Users[0].status = 'online'
-                    users.get(chats[1].Users[0].id).sockets.forEach(socket => {
-                        io.to(socket).emit('new-chat', chats[0])
-                    })
+                    users
+                        .get(chats[1].Users[0].id)
+                        .sockets.forEach((socket) => {
+                            io.to(socket).emit('new-chat', chats[0])
+                        })
                 }
 
                 if (users.has(chats[0].Users[0].id)) {
                     chats[1].Users[0].status = online
-                    users.get(chats[0].Users[0].id).sockets.forEach(socket => {
-                        io.to(socket).emit('new-chat', chats[1])
+                    users
+                        .get(chats[0].Users[0].id)
+                        .sockets.forEach((socket) => {
+                            io.to(socket).emit('new-chat', chats[1])
+                        })
+                }
+            } catch (e) {}
+        })
+
+        socket.on('add-user-to-group', ({ chat, newChatter }) => {
+
+            
+            if (users.has(newChatter.id)) {
+                newChatter.status = 'online'
+            }
+
+            chat.Users.forEach((user, index) => {
+                if (users.has(user.id)) {
+                    chat.Users[index].status = 'online'
+                    users.get(user.id).sockets.forEach((socket) => {
+                        try {
+                            io.to(socket).emit('added-user-to-group', {
+                                chat,
+                                chatters: [newChatter],
+                            })
+                        } catch (e) {
+                            console.log('err', e)
+                        }
                     })
                 }
+            })
 
-            } catch (e) {
-                
+            if (users.has(newChatter.id)) {
+                users.get(newChatter.id).sockets.forEach((socket) => {
+                    try {
+                        io.to(socket).emit('added-user-to-group', {
+                            chat,
+                            chatters: chat.Users,
+                        })
+                    } catch (e) {
+                        console.log('err', e)
+                    }
+                })
             }
         })
 

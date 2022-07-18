@@ -7,7 +7,7 @@ import { setCurrentChat } from '../../../../store/actions/chat'
 
 import ChatService from '../../../../services/chatService'
 
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import Modal from '../../../modal/Modal'
 
 const FriendList = () => {
@@ -35,13 +35,13 @@ const FriendList = () => {
             })
     }
 
-    const addNewFriend = (id) => {
 
-        console.log('id', id);
+    const addNewFriend = (id) => {
         
         ChatService.createChat(id)
             .then((chats) => {
                 socket.emit('add-friend', chats)
+                // window.location.reload()
                 setShowFriendsModal(false)
             })
             .catch((e) => console.log('err', e))

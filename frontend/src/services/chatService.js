@@ -29,9 +29,9 @@ const ChatService = {
             params: {
                 id,
                 page,
-            }
+            },
         })
-            .then(( {data}) => {
+            .then(({ data }) => {
                 return data
             })
             .catch((err) => {
@@ -42,10 +42,10 @@ const ChatService = {
     searchUsers: (term) => {
         return API.get('/users/search-users', {
             params: {
-                term
-            }
+                term,
+            },
         })
-            .then(( {data}) => {
+            .then(({ data }) => {
                 return data
             })
             .catch((err) => {
@@ -55,7 +55,7 @@ const ChatService = {
 
     createChat: (partnerId) => {
         return API.post('/chats/create', { partnerId })
-            .then(( {data}) => {
+            .then(({ data }) => {
                 return data
             })
             .catch((err) => {
@@ -63,6 +63,15 @@ const ChatService = {
             })
     },
 
+    addFriendToGroupChat: (userId, chatId) => {
+        return API.post('/chats/add-user-to-group', { userId, chatId })
+            .then(({ data }) => {
+                return data
+            })
+            .catch((err) => {
+                throw err
+            })
+    },
 }
 
 export default ChatService

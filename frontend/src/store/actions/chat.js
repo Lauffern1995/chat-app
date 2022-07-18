@@ -12,6 +12,7 @@ import {
     PAGINATE_MESSAGES,
     INCREMENT_SCROLL,
     CREATE_CHAT,
+    ADD_USER_TO_GROUP
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -86,6 +87,11 @@ export const paginateMessage = (id, page) => (dispatch) => {
 export const  incrementScroll = () => (dispatch) => {
     dispatch({ type: INCREMENT_SCROLL })
 }
+
 export const  createChat = (chat) => (dispatch) => {
     dispatch({ type: CREATE_CHAT, payload: chat })
+}
+
+export const  addUserToGroup = (group) => (dispatch) => {
+    dispatch({ type: ADD_USER_TO_GROUP, payload: group })
 }
