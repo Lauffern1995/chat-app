@@ -12,7 +12,8 @@ import {
     PAGINATE_MESSAGES,
     INCREMENT_SCROLL,
     CREATE_CHAT,
-    ADD_USER_TO_GROUP
+    ADD_USER_TO_GROUP,
+    LEAVE_CURRENT_CHAT
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -94,4 +95,8 @@ export const  createChat = (chat) => (dispatch) => {
 
 export const  addUserToGroup = (group) => (dispatch) => {
     dispatch({ type: ADD_USER_TO_GROUP, payload: group })
+}
+
+export const  leaveCurrentChat = (data) => (dispatch) => {
+    dispatch({ type: LEAVE_CURRENT_CHAT, payload: data })
 }

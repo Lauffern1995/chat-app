@@ -9,7 +9,8 @@ import {
     receivedMessage,
     senderTyping,
     createChat,
-    addUserToGroup
+    addUserToGroup,
+    leaveCurrentChat
 } from '../../../store/actions/chat'
 
 import socketIOClient from 'socket.io-client'
@@ -54,6 +55,10 @@ function useSocket(user, dispatch) {
                     dispatch(addUserToGroup(group))
                 })
 
+                socket.on('remove-user-from-chat', (data) => {
+                    data.currentUserId = user.id
+                    dispatch(leaveCurrentChat(data))
+                })
 
                 console.log(res)
             })

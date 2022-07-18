@@ -10,6 +10,7 @@ export const PAGINATE_MESSAGES = 'PAGINATE_MESSAGES'
 export const INCREMENT_SCROLL = 'INCREMENT_SCROLL'
 export const CREATE_CHAT = 'CREATE_CHAT'
 export const ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP'
+export const LEAVE_CURRENT_CHAT = 'LEAVE_CURRENT_CHAT'
 
 const initialState = {
     chats: [],
@@ -250,12 +251,12 @@ const chatReducer = (state = initialState, action) => {
             let exists = false
 
             const chatsCopy = state.chats.map((chatState) => {
-                if (chat.id === chatState.Id) {
+                if (chat.id === chatState.id) {
                     exists = true
 
                     return {
                         ...chatState,
-                        Users: { ...chatState.Users, ...chatters },
+                        Users: [ ...chatState.Users, ...chatters] ,
                     }
                 }
                 return chatState
@@ -279,6 +280,48 @@ const chatReducer = (state = initialState, action) => {
                 chats: chatsCopy,
                 currentChat: currentChatCopy,
             }
+        }
+
+        case LEAVE_CURRENT_CHAT: {
+
+            const {chatId, userId, currentUserId} = payload
+
+            if (userId === currentUserId) {
+                const chatsCopy = state.chats.filter(chat =>
+                    chat.id !== chatId
+                )
+                return {
+                    ...state,
+                    chats: chatsCopy,
+                    currentChat: state.currentChat.id === chatId ? {} : state.currentChat
+                }
+            } else {
+
+                const chatsCopy = state.chats.map(chat => {
+                    if (chatId === chat.id) {
+                        return {
+                            ...chat,
+                             Users: chat.Users.filter(user => user.id !== userId)
+                        }
+                    }
+                    return chat
+                })
+
+                let currentChatCopy = {...state.currentChat}
+                if (currentChatCopy.id === chatId) {
+                    currentChatCopy = {
+                        ...currentChatCopy, 
+                        Users: currentChatCopy.Users.filter(user => user.id !== userId)
+                    }
+                }
+
+                return {
+                    ...state,
+                    chats: chatsCopy,
+                    currentChat: currentChatCopy
+                }
+            }
+
         }
 
         default: {

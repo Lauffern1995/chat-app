@@ -28,12 +28,24 @@ const ChatHeader = ({ chat }) => {
     }
 
     const addNewFriend = (id) => {
+    
+        
         ChatService.addFriendToGroupChat(id, chat.id)
             .then((data) => {
                 socket.emit('add-user-to-group', data)
+                console.log('data', data);
+                
                 setShowAddFriendModal(false)
             })
             .catch((e) => console.log('err', e))
+    }
+
+    const leaveChat = () => {
+        ChatService.leaveCurrentChat(chat.id)
+        .then(data => {
+            socket.emit('leave-current-chat', data)
+        })
+        .catch(e => console.log('err', e))
     }
 
     return (
@@ -75,7 +87,7 @@ const ChatHeader = ({ chat }) => {
                     </div>
 
                     {chat.type === 'group' ? (
-                        <div>
+                        <div onClick={() => leaveChat()}>
                             <FontAwesomeIcon
                                 icon={['fas', 'sign-out-alt']}
                                 className="fa-icon"
