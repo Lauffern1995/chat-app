@@ -73,16 +73,25 @@ const ChatService = {
             })
     },
 
-    leaveCurrentChat: (chatId => {
+    leaveCurrentChat: (chatId) => {
         return API.post('/chats/leave-current-chat', { chatId })
-        .then(({ data }) => {
-            return data
-        })
-        .catch((err) => {
-            throw err
-        })
-    })
+            .then(({ data }) => {
+                return data
+            })
+            .catch((err) => {
+                throw err
+            })
+    },
 
+    deleteCurrentChat: (chatId) => {
+        return API.delete(`/chats/${chatId }`)
+            .then(({ data }) => {
+                return data
+            })
+            .catch((err) => {
+                throw err
+            })
+    },
 }
 
 export default ChatService

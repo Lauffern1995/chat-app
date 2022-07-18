@@ -13,7 +13,8 @@ import {
     INCREMENT_SCROLL,
     CREATE_CHAT,
     ADD_USER_TO_GROUP,
-    LEAVE_CURRENT_CHAT
+    LEAVE_CURRENT_CHAT,
+    DELETE_CURRENT_CHAT
 } from '../reducers/chat'
 
 export const fetchChats = () => (dispatch) => {
@@ -99,4 +100,8 @@ export const  addUserToGroup = (group) => (dispatch) => {
 
 export const  leaveCurrentChat = (data) => (dispatch) => {
     dispatch({ type: LEAVE_CURRENT_CHAT, payload: data })
+}
+
+export const  deleteCurrentChat = (data) => (dispatch) => {
+    dispatch({ type: DELETE_CURRENT_CHAT, payload: data })
 }

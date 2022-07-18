@@ -207,19 +207,21 @@ exports.addUserToGroup = async (req, res) => {
 
         chat.Messages.reverse()
 
-        //check if user is already in group 
-        chat.Users.forEach(user => {
+        //check if user is already in group
+        chat.Users.forEach((user) => {
             if (user.id === userId) {
-                return res.status(403).json({message: 'User already in the group!'})
+                return res
+                    .status(403)
+                    .json({ message: 'User already in the group!' })
             }
         })
 
-        await ChatUser.create({chatId, userId})
+        await ChatUser.create({ chatId, userId })
 
         const newChatter = await User.findOne({
             where: {
-                id: userId
-            }
+                id: userId,
+            },
         })
 
         if (chat.type === 'dual') {
@@ -227,8 +229,7 @@ exports.addUserToGroup = async (req, res) => {
             chat.save()
         }
 
-        return res.json({chat, newChatter})
-
+        return res.json({ chat, newChatter })
     } catch (e) {
         return res.status(500).json({ status: 'Error', message: e.message })
     }
@@ -236,22 +237,26 @@ exports.addUserToGroup = async (req, res) => {
 
 exports.leaveCurrentChat = async (req, res) => {
     try {
-
-        const {chatId} = req.body
+        const { chatId } = req.body
 
         const chat = await Chat.findOne({
             where: {
-                 id: chatId
+                id: chatId,
             },
             include: [
                 {
-                    model: User
-                }
-            ]
+                    model: User,
+                },
+            ],
         })
 
         if (chat.Users.length === 2) {
-            return res.status(403).json({ status: 'Error', message: 'You cannot leave this chat' })
+            return res
+                .status(403)
+                .json({
+                    status: 'Error',
+                    message: 'You cannot leave this chat',
+                })
         }
 
         if (chat.Users.length === 3) {
@@ -262,37 +267,50 @@ exports.leaveCurrentChat = async (req, res) => {
         await ChatUser.destroy({
             where: {
                 chatId,
-                userId: req.user.id
-            }
+                userId: req.user.id,
+            },
         })
 
         await Message.destroy({
             where: {
                 chatId,
-                fromUserId: req.user.id
-            }
+                fromUserId: req.user.id,
+            },
         })
 
-        const notifyUsers = chat.Users.map(user => user.id)
+        const notifyUsers = chat.Users.map((user) => user.id)
 
-        return res.json({chatId: chat.id, userId: req.user.id, currentUserId: req.user.id, notifyUsers
+        return res.json({
+            chatId: chat.id,
+            userId: req.user.id,
+            currentUserId: req.user.id,
+            notifyUsers,
         })
-        
     } catch (e) {
-
         return res.status(500).json({ status: 'Error', message: e.message })
-    
     }
 }
 
 exports.deleteChat = async (req, res) => {
+    const id = req.params.id
+
     try {
-        await Chat.destroy({
+        const chat = await Chat.findOne({
             where: {
-                id: req.params.id,
+                id,
             },
+            include: [
+                {
+                    model: User,
+                },
+            ],
         })
-        return res.json({ status: 'Success', message: 'Chat Deleted.' })
+
+        const notifyUsers = chat.Users.map(user => user.id)
+
+        await chat.destroy()
+
+        return res.json({ chatId: id, notifyUsers})
     } catch (e) {
         return res.status(500).json({ status: 'Error', message: e.message })
     }

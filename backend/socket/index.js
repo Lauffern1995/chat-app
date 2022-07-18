@@ -127,8 +127,6 @@ const SocketServer = (server) => {
         })
 
         socket.on('add-user-to-group', ({ chat, newChatter }) => {
-
-            
             if (users.has(newChatter.id)) {
                 newChatter.status = 'online'
             }
@@ -162,23 +160,37 @@ const SocketServer = (server) => {
                 })
             }
         })
-        
-
 
         socket.on('leave-current-chat', (data) => {
-            const {chatId, userId, currentUserId, notifyUsers} = data
+            const { chatId, userId, currentUserId, notifyUsers } = data
 
-             notifyUsers.forEach(id => {
-                 if (users.has(id)) {
-                     users.get(id).sockets.forEach(socket => {
-                         try {
-                             io.to(socket).emit('remove-user-from-chat', {chatId, userId, currentUserId})
-                         } catch (e) {
-                             
-                         }
-                     })
-                 }
-             })
+            notifyUsers.forEach((id) => {
+                if (users.has(id)) {
+                    users.get(id).sockets.forEach((socket) => {
+                        try {
+                            io.to(socket).emit('remove-user-from-chat', {
+                                chatId,
+                                userId,
+                                currentUserId,
+                            })
+                        } catch (e) {}
+                    })
+                }
+            })
+        })
+
+        socket.on('delete-chat', (data) => {
+            const { chatId, notifyUsers } = data
+
+            notifyUsers.forEach((id) => {
+                if (users.has(id)) {
+                    users.get(id).sockets.forEach((socket) => {
+                        try {
+                            io.to(socket).emit('delete-chat', parseInt(chatId))
+                        } catch (e) {}
+                    })
+                }
+            })
         })
 
         socket.on('disconnect', async () => {

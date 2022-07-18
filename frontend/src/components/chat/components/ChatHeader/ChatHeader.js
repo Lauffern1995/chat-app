@@ -28,13 +28,11 @@ const ChatHeader = ({ chat }) => {
     }
 
     const addNewFriend = (id) => {
-    
-        
         ChatService.addFriendToGroupChat(id, chat.id)
             .then((data) => {
                 socket.emit('add-user-to-group', data)
-                console.log('data', data);
-                
+                console.log('data', data)
+
                 setShowAddFriendModal(false)
             })
             .catch((e) => console.log('err', e))
@@ -42,10 +40,21 @@ const ChatHeader = ({ chat }) => {
 
     const leaveChat = () => {
         ChatService.leaveCurrentChat(chat.id)
-        .then(data => {
-            socket.emit('leave-current-chat', data)
-        })
-        .catch(e => console.log('err', e))
+            .then((data) => {
+                socket.emit('leave-current-chat', data)
+            })
+            .catch((e) => console.log('err', e))
+    }
+
+    const deleteChat = () => {
+        ChatService.deleteCurrentChat(chat.id)
+        
+            .then((data) => {
+                console.log('DATA', data);
+                
+                socket.emit('delete-chat', data)
+            })
+            .catch((e) => console.log('err', e))
     }
 
     return (
@@ -95,13 +104,15 @@ const ChatHeader = ({ chat }) => {
                             <p>Leave Chat</p>
                         </div>
                     ) : null}
-                    <div>
-                        <FontAwesomeIcon
-                            icon={['fas', 'trash']}
-                            className="fa-icon"
-                        />
-                        <p>Delete Chat</p>
-                    </div>
+                    {chat.type === 'dual' ? (
+                        <div onClick={() => deleteChat()}>
+                            <FontAwesomeIcon
+                                icon={['fas', 'trash']}
+                                className="fa-icon"
+                            />
+                            <p>Delete Chat</p>
+                        </div>
+                    ) : null}
                 </div>
             ) : null}
 

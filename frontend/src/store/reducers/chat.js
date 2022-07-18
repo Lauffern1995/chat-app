@@ -11,6 +11,11 @@ export const INCREMENT_SCROLL = 'INCREMENT_SCROLL'
 export const CREATE_CHAT = 'CREATE_CHAT'
 export const ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP'
 export const LEAVE_CURRENT_CHAT = 'LEAVE_CURRENT_CHAT'
+export const DELETE_CURRENT_CHAT = 'DELETE_CURRENT_CHAT'
+
+
+
+
 
 const initialState = {
     chats: [],
@@ -322,6 +327,14 @@ const chatReducer = (state = initialState, action) => {
                 }
             }
 
+        }
+        
+        case DELETE_CURRENT_CHAT: {
+            return {
+                ...state,
+                chats: state.chats.filter(chat => chat.id !== payload),
+                currentChat: state.currentChat.id === payload ? {} : state.currentChat 
+            }
         }
 
         default: {
