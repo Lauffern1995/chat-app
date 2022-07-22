@@ -1,4 +1,4 @@
-# chat-app
+# Chat.IO
 Chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 
 
@@ -12,16 +12,30 @@ Chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 * [![SASS][SASS.img]][SASS-url]
 * [![WebSockets][WebSockets.img]][WebSockets-url]
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
-!['LOGIN'](https://github.com/Lauffern1995/chat-app/blob/main/docs/WelcomeBack.png?raw=true)
+Each user can create a personalized account.
 !['CREATE ACCOUNT'](https://github.com/Lauffern1995/chat-app/blob/main/docs/CreateAcct.png?raw=true)
+!['LOGIN'](https://github.com/Lauffern1995/chat-app/blob/main/docs/WelcomeBack.png?raw=true)
+----------------------------------------------------------------
+Users can add new friends to begin chatting. If the other user is also logged in, you will be notified by the green or red status bubble next to their name.
 !['ADD FRIEND'](https://github.com/Lauffern1995/chat-app/blob/main/docs/AddFriend.gif?raw=true)
+----------------------------------------------------------------
+Users can add multipule others to create a group chat. If the chat is between more than two users, one user can opt to leave the chat without disrupting the other chatters.
 !['GROUP CHAT'](https://github.com/Lauffern1995/chat-app/blob/main/docs/GroupChat.gif?raw=true)
+----------------------------------------------------------------
+Messages are archived and can be fetched via an infinite scroll window.
 !['INFINITE SCROLL'](https://github.com/Lauffern1995/chat-app/blob/main/docs/InfiniteScroll.gif?raw=true)
+----------------------------------------------------------------
+If the user gets a new message while scrolling through archived messages, a notification will pop up. Once clicked, the window will scroll down to view the most recent message.
 !['NEW MSG NOTIFICATION'](https://github.com/Lauffern1995/chat-app/blob/main/docs/NewMessageNoti.gif?raw=true)
+Users can upload pictures in the chat.
 !['UPLOAD A PICTURE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/PictureUpload.gif?raw=true)
+----------------------------------------------------------------
+When the another user in your chat is typing, you will be notified. 
 !['TYPING FEATURE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/Typing.png?raw=true)
+----------------------------------------------------------------
+Users can also update their profile, including uploading a personalized PFP.
+!['UPDATE PROFILE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/UPDATEPROFILE.png?raw=true)
 
 
 
@@ -39,3 +53,4 @@ Chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 [SASS-url]: https://sass-lang.com/
 [WebSockets.img]: https://img.shields.io/badge/WebSockets-000000?style=for-the-badge&logo=WebSockets&logoColor=white
 [WebSockets-url]: https://www.npmjs.com/package/websocket
+<p align="right">(<a href="#top">back to top</a>)</p>
