@@ -2,6 +2,19 @@
 simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 
 
+### Built With
+
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+* [![Vue][Vue.js]][Vue-url]
+* [![Angular][Angular.io]][Angular-url]
+* [![Svelte][Svelte.dev]][Svelte-url]
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![JQuery][JQuery.com]][JQuery-url]
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 !['LOGIN'](https://github.com/Lauffern1995/chat-app/blob/main/docs/WelcomeBack.png?raw=true)
 !['CREATE ACCOUNT'](https://github.com/Lauffern1995/chat-app/blob/main/docs/CreateAcct.png?raw=true)
 !['ADD FRIEND'](https://github.com/Lauffern1995/chat-app/blob/main/docs/AddFriend.gif?raw=true)
