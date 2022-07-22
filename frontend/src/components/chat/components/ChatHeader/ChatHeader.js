@@ -32,8 +32,8 @@ const ChatHeader = ({ chat }) => {
             .then((data) => {
                 socket.emit('add-user-to-group', data)
                 console.log('data', data)
-
-                setShowAddFriendModal(false)
+                setShowChatOptions(!showChatOptions)
+                setShowAddFriendModal(!showAddFriendModal)
             })
             .catch((e) => console.log('err', e))
     }
