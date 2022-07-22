@@ -35,7 +35,7 @@ When the another user in your chat is typing, you will be notified.
 !['TYPING FEATURE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/Typing.png?raw=true)
 ----------------------------------------------------------------
 Users can also update their profile, including uploading a personalized PFP.
-!['UPDATE PROFILE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/UPDATEPROFILE.gif?raw=true)
+!['UPDATE PROFILE'](https://github.com/Lauffern1995/chat-app/blob/main/docs/UPDTEPROFILE.gif?raw=true)
 
 
 
