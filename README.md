@@ -9,6 +9,7 @@ simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 * [![Redux][Redux.js]][Redux-url]
 * [![Node][Node.js]][Node-url]
 * [![PostgreSQL][PostgreSQL.img]][SQL-url]
+* [![SASS][SASS.img]][SASS-url]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -31,3 +32,7 @@ simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 [Node-url]: https://nodejs.org/en/
 [PostgreSQL.img]: https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=PostgreSQL&logoColor=white
 [SQL-url]: https://www.postgresql.org/
+
+[SASS.img]:https://img.shields.io/badge/SASS-CD6799?style=for-the-badge&logo=SASS&logoColor=white
+
+[SASS-url]: https://sass-lang.com/
