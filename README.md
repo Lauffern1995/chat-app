@@ -1,5 +1,5 @@
 # chat-app
-simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
+Chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 
 
 ### Built With
@@ -10,6 +10,7 @@ simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 * [![Node][Node.js]][Node-url]
 * [![PostgreSQL][PostgreSQL.img]][SQL-url]
 * [![SASS][SASS.img]][SASS-url]
+* [![WebSockets][WebSockets.img]][WebSockets-url]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -36,3 +37,5 @@ simple chat app with Node.js and React with Web Sockets, PostgreSQL, Redux
 [SASS.img]:https://img.shields.io/badge/SASS-CD6799?style=for-the-badge&logo=SASS&logoColor=white
 
 [SASS-url]: https://sass-lang.com/
+[WebSockets.img]: https://img.shields.io/badge/WebSockets-000000?style=for-the-badge&logo=WebSockets&logoColor=white
+[WebSockets-url]: https://www.npmjs.com/package/websocket
